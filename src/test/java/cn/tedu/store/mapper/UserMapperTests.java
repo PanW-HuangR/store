@@ -35,6 +35,8 @@ public class UserMapperTests {
 		System.err.println("rows="+rows);
 	}
 	
+	//just for pushtest
+	
 	@Test
 	public void findByUid() {
 		Integer uid = 2;
