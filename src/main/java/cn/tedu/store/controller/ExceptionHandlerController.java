@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import cn.tedu.store.service.ex.InsertException;
 import cn.tedu.store.service.ex.PasswordNotMatchException;
 import cn.tedu.store.service.ex.ServiceException;
+import cn.tedu.store.service.ex.UpdateException;
 import cn.tedu.store.service.ex.UserNotFoundException;
 import cn.tedu.store.service.ex.UsernameDuplicateException;
 import cn.tedu.store.util.JsonResult;
@@ -23,6 +24,8 @@ public class ExceptionHandlerController {
 			jsonResult.setState(4002);
 		} else if (ex instanceof InsertException) {
 			jsonResult.setState(5000);
+		} else if (ex instanceof UpdateException) {
+			jsonResult.setState(5001);
 		}
 
 		return jsonResult;

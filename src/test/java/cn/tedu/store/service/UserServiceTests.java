@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.mysql.cj.protocol.x.Ok;
-
 import cn.tedu.store.entity.User;
 import cn.tedu.store.service.ex.ServiceException;
 
@@ -39,13 +37,23 @@ public class UserServiceTests {
 	@Test
 	public void login() {
 		try {
-			String username = "张三";
-			String password = "123";
+			String username = "root";
+			String password = "1234";
 			User user = iUserService.login(username, password);
 			System.err.println("OK..."+user);
 		} catch (ServiceException e) {
 			System.err.println(e.getClass().getName());
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	@Test
+	public void changePassword() {
+		//changePassword(Integer uid, String oldPassword, String newPassword, String username)
+		Integer uid = 1;
+		String oldPassword = "1234";
+		String newPassword = "123";
+		String username = "root";
+		iUserService.changePassword(uid, oldPassword, newPassword, username);
 	}
 }

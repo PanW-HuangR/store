@@ -12,6 +12,7 @@ import cn.tedu.store.mapper.UserMapper;
 import cn.tedu.store.service.IUserService;
 import cn.tedu.store.service.ex.InsertException;
 import cn.tedu.store.service.ex.PasswordNotMatchException;
+import cn.tedu.store.service.ex.UpdateException;
 import cn.tedu.store.service.ex.UserNotFoundException;
 import cn.tedu.store.service.ex.UsernameDuplicateException;
 
@@ -103,6 +104,57 @@ public class UserServiceImpl implements IUserService {
 		user.setAvatar(result.getAvatar());
 		// 返回新创建的对象
 		return user;
+	}
+	
+	@Override
+	public void changePassword(Integer uid, String oldPassword, String newPassword, String username) {
+		//输出日志
+		System.err.println("UserServiceImpl.changePassword()");
+		System.err.println("\tuid="+uid);
+		System.err.println("\toldPassword="+oldPassword);
+		System.err.println("\tnewPassword="+newPassword);
+		System.err.println("\tusername="+username);
+		//基于参数uid调用userMapper的findByUid()查询用户数据
+		User resultUser = userMapper.findByUid(uid);
+		//判断查询结果是否为null
+		if(resultUser == null) {
+			//是：UserNotFoundException
+			throw new UserNotFoundException("更新密码失败！用户不存在！");
+		}
+		
+		//判断是否查询结果中的isDelete是否为1
+		if(resultUser.getIsDelete() ==1) {
+			//是：UserNotFoundException
+			throw new UserNotFoundException("更新密码失败！用户不存在！");
+		}
+		
+		//从查询结果中取出盐值
+		String salt = resultUser.getSalt();
+		//日志：“将原密码执行加密得到MD5Password与查询结果中的进行比较”
+		System.err.println("用户填写的原密码进行MD5加密, 与数据库密码进行比较...");
+		//将参数oldPassword结合盐值进行加密，得到oldMd5Password
+		String oldMd5Password = getMd5Password(oldPassword, salt);
+		//日志：输出两个Md5Password
+		System.err.println("\toldMd5Password:"+oldMd5Password);
+		System.err.println("\tDBMd5Password:"+resultUser.getPassword());
+		//判断oldMd5Password与DBMd5Password是否不一致
+		if(!oldMd5Password.equals(resultUser.getPassword())) {
+			throw new PasswordNotMatchException("更新密码失败！原密码错误！");
+		}
+		
+		//日志：“将新密码执行加密”
+		//将newPassword结合盐值执行加密，得到newMd5Password
+		System.err.println("将新密码进行加密成newMd5Password存进数据库...");
+		String newMd5Password = getMd5Password(newPassword, salt);
+		//调用userMapper的updatePasswordByUid()执行更新密码，并获取返回的受影响的行数
+		Integer rows = userMapper.updatePasswordByUid(uid, newMd5Password, username, new Date());
+		//判断受影响行数是否不为1
+		if(rows != 1) {
+			throw new UpdateException("更新密码失败！执行更新时出现未知错误！请联系系统管理员！");
+		}
+		//输出受影响行数
+		System.err.println("rows="+rows);
+		
 	}
 	
 	/**
