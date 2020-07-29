@@ -119,12 +119,14 @@ public class UserServiceImpl implements IUserService {
 		//判断查询结果是否为null
 		if(resultUser == null) {
 			//是：UserNotFoundException
+			System.err.println("server:更新密码失败！用户不存在！");
 			throw new UserNotFoundException("更新密码失败！用户不存在！");
 		}
 		
 		//判断是否查询结果中的isDelete是否为1
 		if(resultUser.getIsDelete() ==1) {
 			//是：UserNotFoundException
+			System.err.println("server:更新密码失败！用户不存在！");
 			throw new UserNotFoundException("更新密码失败！用户不存在！");
 		}
 		
@@ -139,6 +141,7 @@ public class UserServiceImpl implements IUserService {
 		System.err.println("\tDBMd5Password:"+resultUser.getPassword());
 		//判断oldMd5Password与DBMd5Password是否不一致
 		if(!oldMd5Password.equals(resultUser.getPassword())) {
+			System.err.println("server:更新密码失败！原密码错误！");
 			throw new PasswordNotMatchException("更新密码失败！原密码错误！");
 		}
 		

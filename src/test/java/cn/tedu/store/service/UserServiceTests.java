@@ -51,8 +51,8 @@ public class UserServiceTests {
 	public void changePassword() {
 		//changePassword(Integer uid, String oldPassword, String newPassword, String username)
 		Integer uid = 1;
-		String oldPassword = "1234";
-		String newPassword = "123";
+		String oldPassword = "123";
+		String newPassword = "1234";
 		String username = "root";
 		iUserService.changePassword(uid, oldPassword, newPassword, username);
 	}
