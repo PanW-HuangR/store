@@ -35,6 +35,19 @@ public class UserMapperTests {
 		System.err.println("rows="+rows);
 	}
 	
+	@Test
+	public void updateInfodByUid() {
+		User user = new User();
+		user.setUid(2);
+		user.setPhone("12654789642");
+		user.setEmail("lisi@aim.com");
+		user.setGender(0);
+		user.setModifiedUser("李四");
+		user.setModifiedTime(new Date());
+		Integer rows = userMapper.updateInfoByUid(user);
+		System.err.println("rows="+rows);
+	}
+	
 	//just for pushtest
 	
 	@Test

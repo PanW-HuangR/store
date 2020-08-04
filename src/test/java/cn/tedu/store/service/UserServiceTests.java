@@ -56,4 +56,33 @@ public class UserServiceTests {
 		String username = "root";
 		iUserService.changePassword(uid, oldPassword, newPassword, username);
 	}
+	
+	@Test
+	public void showInfo() {
+		try {
+			Integer uid = 1;
+			User resultUser = iUserService.showInfo(uid);
+			System.err.println("OK."+resultUser);
+		} catch (ServiceException e) {
+			System.err.println(e.getClass().getName());
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	public void changeInfo() {
+		try {
+			Integer uid = 2;
+			String username = "李四";
+			User user = new User();
+			user.setPhone("13598746563");
+			user.setEmail("lisi@gmail.com");
+			user.setGender(0);
+			iUserService.changeInfo(uid, username, user);
+			System.err.println("OK.");
+		} catch (ServiceException e) {
+			System.err.println(e.getClass().getName());
+			System.err.println(e.getMessage());
+		}
+	}
 }

@@ -36,6 +36,13 @@ public interface UserMapper {//下面方法是按照增-删-改-查的顺序
 			@Param("modifiedUser") String modifiedUser,
 			@Param("modifiedTime") Date modifiedTime);
 	
+	/**
+	 * 根据用户id更新用户基本信息
+	 * @param user 封装了用户的id和新的信息的对象
+	 * @return 受影响的行数
+	 */
+	Integer updateInfoByUid(User user);
+	
 	/******************************查**********************************/
 	
 	/**

@@ -160,6 +160,69 @@ public class UserServiceImpl implements IUserService {
 		
 	}
 	
+	@Override
+	public User showInfo(Integer uid) {
+		//输出日志
+		System.err.println("UserServiceImpl.showInfo()");
+		//基于参数uid调用userMapper的findByUid()查询用户数据
+		User resultUser = userMapper.findByUid(uid);
+		//判断查询结果是否为null
+		if(resultUser == null) {
+			//是：抛出UserNotFoundException
+			throw new UserNotFoundException("获取用户信息失败！用户数据不存在！");
+		}
+		
+		//判断查询结果中的isDelete是否为1
+		if(resultUser.getIsDelete() == 1) {
+			//是：抛出UserNotFoundException
+			throw new UserNotFoundException("获取用户信息失败！用户数据不存在！");
+		}
+		
+		//创建新的User对象
+		User user = new User();
+		//将查询结果中的username，phone，email，gender封装到新对象中
+		user.setUsername(resultUser.getUsername());
+		user.setPhone(resultUser.getPhone());
+		user.setEmail(resultUser.getEmail());
+		user.setGender(resultUser.getGender());
+		//返回新的User对象
+		return user;
+	}
+	
+	@Override
+	public void changeInfo(Integer uid,String username,User user) {
+		//输出日志
+		System.err.println("UserServiceImpl.changeInfo()");
+		//基于参数uid调用userMapper的findByUid()查询用户数据
+		User resultUser = userMapper.findByUid(uid);
+		//判断查询结构是否不存在
+		if(resultUser == null) {
+			//是：抛出UserNotFoundException
+			throw new UserNotFoundException("修改用户资料失败！用户数据不存在！");
+		}
+		
+		//判断查询结果中的isDelete是否为1
+		if(resultUser.getIsDelete() == 1) {
+			//是：抛出UserNotFoundException
+			throw new UserNotFoundException("修改用户资料失败！用户数据不存在！");
+		}
+		
+		//向参数user中封装uid
+		user.setUid(uid);
+		//向参数user中封装username到modifiedUser属性
+		user.setModifiedUser(username);
+		//向参数user中封装当前时间到modifiedTime属性
+		user.setModifiedTime(new Date());
+		//调用持久层userMapper的updateInfoByUid(user)执行更新，获取返回的受影响的行数
+		Integer rows = userMapper.updateInfoByUid(user);
+		//判断受影响的行数是否不为1
+		if(rows != 1) {
+			//是：UpdateException
+			throw new UpdateException("修改用户资料失败！执行更新用户资料时出现未知错误！请联系系统管理员！");
+		}
+		
+	}
+	
 	/**
 	 * 执行密码加密，获取加密后的密码
 	 * @param password 原始密码

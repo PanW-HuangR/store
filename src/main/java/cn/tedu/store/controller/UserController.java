@@ -55,4 +55,19 @@ public class UserController {
 		return new JsonResult<>(OK);
 	}
 	
+	// http://localhost:80/users/info/show
+	//请求路径：/users/info/show
+	//请求参数：HttpSession session
+	//请求方式：GET
+	//响应结果：JsonResult<User>
+	@RequestMapping("info/show")
+	public JsonResult<User> showInfo(HttpSession session) {
+		//从参数session中取出登录时存入的uid
+		Integer uid = Integer.valueOf(session.getAttribute("uid").toString());
+		//调用业务对象的showInfo()方法查询用户数据
+		User data = iUserService.showInfo(uid);
+		//返回
+		return new JsonResult<>(OK,data);
+	}
+	
 }

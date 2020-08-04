@@ -262,6 +262,26 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $.ajax({
+          "url":"/users/info/show",
+          "type":"get",
+          "dataType":"json",
+          "success":function(jsonResult){
+            if(jsonResult.state == 2000){
+            	console.log("username="+jsonResult.data.username);
+            	console.log("phone="+jsonResult.data.phone);
+            	console.log("email="+jsonResult.data.email);
+            	console.log("gender="+jsonResult.data.gender);
+            }
+            else{
+              alert(jsonResult.message);
+            }
+          }
+        });
+      });
+    </script>
 	</body>
 
 </html>

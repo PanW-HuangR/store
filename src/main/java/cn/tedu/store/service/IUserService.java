@@ -32,4 +32,18 @@ public interface IUserService {
 	 */
 	void changePassword(Integer uid,String oldPassword,String newPassword,String username);
 	
+	/**
+	 * 显示当前登录用户的基本信息
+	 * @param uid 当前登录的用户的id
+	 * @return 该用户的基本信息
+	 */
+	User showInfo(Integer uid);
+	
+	/**
+	 * 修改用户的基本资料
+	 * @param uid 用户的id
+	 * @param uesrname 用户名
+	 * @param user 封装了用户的新资料的对象
+	 */
+	void changeInfo(Integer uid,String username,User user);
 }
