@@ -3,7 +3,6 @@ package cn.tedu.store.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,15 +12,10 @@ import cn.tedu.store.util.JsonResult;
 
 @RestController
 @RequestMapping("users")
-public class UserController {
+public class UserController extends BaseController{
 	
 	@Autowired
 	private IUserService iUserService;
-	
-	/**
-	 * 响应正确时使用的状态码
-	 */
-	public static final Integer OK = 2000;
 	
 	// http://localhost:80/users/reg?username=controller&password=1234&gender=0&phone=13100131001&email=controller@qq.com
 	@RequestMapping("reg")
@@ -68,6 +62,22 @@ public class UserController {
 		User data = iUserService.showInfo(uid);
 		//返回
 		return new JsonResult<>(OK,data);
+	}
+	
+	// http://localhost:80/users/info/change?phone=13800138888&email=root@tedu.cn&gender=0
+	//请求路径：/users/info/change
+	//请求参数：User user, HttpSession session
+	//请求方式：POST
+	//响应结果：JsonResult<Void>
+	@RequestMapping("info/change")
+	public JsonResult<Void> changeInfo(User user, HttpSession session) {
+		// 从session中获取uid和username
+		Integer uid = getUidFromSession(session);
+		String username = getUsernameFromSession(session);
+		// 调用业务对象执行修改
+		iUserService.changeInfo(uid, username, user);
+		// 返回
+		return new JsonResult<>(OK);
 	}
 	
 }
