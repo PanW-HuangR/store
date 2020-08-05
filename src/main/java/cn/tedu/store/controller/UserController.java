@@ -1,10 +1,14 @@
 package cn.tedu.store.controller;
 
+import java.io.File;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import cn.tedu.store.entity.User;
 import cn.tedu.store.service.IUserService;
@@ -78,6 +82,20 @@ public class UserController extends BaseController{
 		iUserService.changeInfo(uid, username, user);
 		// 返回
 		return new JsonResult<>(OK);
+	}
+	
+	@PostMapping("avatar/change")
+	public JsonResult<Void> changeAvatar(MultipartFile file) throws Exception {
+		//将文件上传到哪个文件夹
+		String parent = "C:/Users/dell/Desktop/pictures";
+		//保存上传的文件时使用的文件名
+		String filename = "1";
+		String suffix = ".png";
+		String child = filename + suffix;
+		//将客户端上传的文件保存到服务器端
+		File dest = new File(parent,child);
+		file.transferTo(dest);
+		return null;
 	}
 	
 }

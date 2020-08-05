@@ -85,4 +85,17 @@ public class UserServiceTests {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	@Test
+	public void changeAvatar() {
+		try {
+			Integer uid = 1;
+			String avatar = "123";
+			String username = "root";
+			iUserService.changeAvatar(uid, avatar, username);
+		} catch (ServiceException e) {
+			System.err.println(e.getClass().getName());
+			System.err.println(e.getMessage());
+		}
+	}
 }

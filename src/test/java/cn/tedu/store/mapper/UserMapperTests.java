@@ -56,4 +56,14 @@ public class UserMapperTests {
 		User resultUser = userMapper.findByUid(uid);
 		System.err.println(resultUser);
 	}
+	
+	@Test
+	public void updateAvatarByUid() {
+		Integer uid = 2;
+		String avatar = "avatar000";
+		String modifiedUser = "密码管理员";
+		Date modifiedTime = new Date();
+		Integer rows = userMapper.updateAvatarByUid(uid, avatar, modifiedUser, modifiedTime);
+		System.err.println("rows="+rows);
+	}
 }

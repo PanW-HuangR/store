@@ -43,6 +43,20 @@ public interface UserMapper {//下面方法是按照增-删-改-查的顺序
 	 */
 	Integer updateInfoByUid(User user);
 	
+	/**
+	 * 上传用户头像
+	 * @param uid 用户的id
+	 * @param avatar 新头像的路径
+	 * @param modifiedUser 修改执行人
+	 * @param modifiedTime 修改的时间
+	 * @return 返回执行的行数
+	 */
+	Integer updateAvatarByUid(
+			@Param("uid") Integer uid,
+			@Param("avatar") String avatar,
+			@Param("modifiedUser") String modifiedUser,
+			@Param("modifiedTime") Date modifiedTime);
+	
 	/******************************查**********************************/
 	
 	/**

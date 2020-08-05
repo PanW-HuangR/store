@@ -223,6 +223,36 @@ public class UserServiceImpl implements IUserService {
 		
 	}
 	
+	@Override
+	public void changeAvatar(Integer uid, String avatar, String username) {
+		
+		//基于参数uid调用userMapper的findByUid()查询用户数据
+		User resultUser = userMapper.findByUid(uid);
+		//判断查询结果是否为null
+		if(resultUser == null) {
+			//是：UserNotFoundException
+			System.err.println("server:修改头像失败！用户不存在！");
+			throw new UserNotFoundException("修改头像失败！用户不存在！");
+		}
+		
+		//判断是否查询结果中的isDelete是否为1
+		if(resultUser.getIsDelete() ==1) {
+			//是：UserNotFoundException
+			System.err.println("server:修改头像失败！用户不存在！");
+			throw new UserNotFoundException("修改头像失败！用户不存在！");
+		}
+		
+		//调用userMapper的updatePasswordByUid()执行更新密码，并获取返回的受影响的行数
+		Integer rows = userMapper.updateAvatarByUid(uid, avatar, username, new Date());
+		//判断受影响行数是否不为1
+		if(rows != 1) {
+			throw new UpdateException("更新头像失败！执行更新时出现未知错误！请联系系统管理员！");
+		}
+		//输出受影响行数
+		System.err.println("rows="+rows);
+				
+	}
+	
 	/**
 	 * 执行密码加密，获取加密后的密码
 	 * @param password 原始密码
