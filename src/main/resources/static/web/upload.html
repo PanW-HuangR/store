@@ -141,7 +141,7 @@
 							<div class="form-group">
 								<label class="col-md-2 control-label">选择头像:</label>
 								<div class="col-md-1">
-									<img src="../images/index/user.jpg" class="img-responsive" />
+									<img id="img-avatar" src="../images/index/user.jpg" class="img-responsive" />
 								</div>
 								<div class="clearfix"></div>
 								<div class="col-md-offset-2 col-md-4">
@@ -243,11 +243,19 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+    <script src="../bootstrap3/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
+      $(document).ready(function(){
+    	  //尝试从Cookie中读取用户的头像
+    	  let avatar = $.cookie("avatar");
+    	  console.log("读取Cookie中的头像路径：" + avatar);
+    	  //将页面中的图片控件显示头像
+    	  $("#img-avatar").attr("src",avatar);
+      });
       $("#btn-submit").click(function(){
         $.ajax({
           "url":"/users/avatar/change",
-          "data":new FormData($("#from")[0]),
+          "data":new FormData($("#form")[0]),
           "contentType":false,
           "processData":false,
           "type":"post",
@@ -255,6 +263,10 @@
           "success":function(jsonResult){
             if(jsonResult.state == 2000){
               alert("上传成功！头像路径：" + jsonResult.data);
+              //更新页面中显示的图片
+              $("#img-avatar").attr("src",jsonResult.data);
+              //将新图片的路径保存到Cookie中
+              $.cookie("avatar",jsonResult.data,{"expires":7});
             }
             else{
               alert(jsonResult.message);
