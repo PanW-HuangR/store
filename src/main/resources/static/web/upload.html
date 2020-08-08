@@ -250,7 +250,9 @@
     	  let avatar = $.cookie("avatar");
     	  console.log("读取Cookie中的头像路径：" + avatar);
     	  //将页面中的图片控件显示头像
-    	  $("#img-avatar").attr("src",avatar);
+    	  if(avatar != null){
+	    	  $("#img-avatar").attr("src",avatar);
+    	  }
       });
       $("#btn-submit").click(function(){
         $.ajax({

@@ -155,6 +155,11 @@
     				if(jsonResult.state == 2000){
     					alert("登录成功！");
     					//location.href="index.html";
+    					if(jsonResult.data.avatar == undefined){
+    						$.cookie("avatar", null, {"expires":-1});
+    					}else{
+    						$.cookie("avatar",jsonResult.data.avatar, {"expires":7});
+    					}
     				}
     				else{
     					alert(jsonResult.message);
