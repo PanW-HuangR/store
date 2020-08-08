@@ -9,6 +9,7 @@ import cn.tedu.store.controller.ex.FileTypeException;
 import cn.tedu.store.controller.ex.FileUploadException;
 import cn.tedu.store.controller.ex.FileUploadIOException;
 import cn.tedu.store.controller.ex.FileUploadStateException;
+import cn.tedu.store.service.ex.AddressCountLimitException;
 import cn.tedu.store.service.ex.InsertException;
 import cn.tedu.store.service.ex.PasswordNotMatchException;
 import cn.tedu.store.service.ex.ServiceException;
@@ -29,7 +30,9 @@ public class ExceptionHandlerController {
 			jsonResult.setState(4001);
 		} else if (ex instanceof PasswordNotMatchException) {
 			jsonResult.setState(4002);
-		} else if (ex instanceof InsertException) {
+		}  else if (ex instanceof AddressCountLimitException) {
+			jsonResult.setState(4003);
+		}  else if (ex instanceof InsertException) {
 			jsonResult.setState(5000);
 		} else if (ex instanceof UpdateException) {
 			jsonResult.setState(6000);

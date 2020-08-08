@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.store.mapper.AddressMapper">
+
+	<resultMap type="cn.tedu.store.entity.User" id="UserEntityMap">
+		<id column="uid" property="uid"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="created_user" property="createdUser"/>
+		<result column="created_time" property="createdTime"/>
+		<result column="modified_user" property="modifiedUser"/>
+		<result column="modified_time" property="modifiedTime"/>
+	</resultMap>
+	
+	<!-- **********************************增********************************** -->
+	
+	<!-- 插入收货地址数据 -->
+	<!-- Integer insert(Address address) -->
+	<insert id="insert"
+		useGeneratedKeys="true"
+		keyProperty="aid">
+		insert into t_address (
+			uid,receiver,
+			province_name,province_code,
+			city_name,city_code,
+			area_name,area_code,
+			zip,address,
+			phone,tel,
+			tag,is_default,
+			created_user,created_time,
+			modified_user,modified_time
+		)values(
+			#{uid}, #{receiver},
+			#{provinceName}, #{provinceCode},
+			#{cityName}, #{cityCode},
+			#{areaName}, #{areaCode},
+			#{zip}, #{address},
+			#{phone}, #{tel},
+			#{tag}, #{isDefault},
+			#{createdUser}, #{createdTime},
+			#{modifiedUser}, #{modifiedTime}
+		)
+	</insert>
+	
+	<!-- **********************************删********************************** -->
+	
+	<!-- **********************************改********************************** -->
+	
+	<!-- 修改某用户的密码 -->
+	<!-- Integer updatePasswordByUid(
+			@Param("uid") Integer uid,
+			@Param("password") String password,
+			@Param("modifiedUser") String modifiedUser,
+			@Param("modifiedTime") Date modifiedTime) -->
+	<update id="updatePasswordByUid">
+		update
+			t_user
+		set
+			password=#{password},
+			modified_user=#{modifiedUser},
+			modified_time=#{modifiedTime}
+		where
+			uid=#{uid}
+	</update>
+	
+	<!-- **********************************查********************************** -->
+	
+	<!-- 统计某用户的收货地址数据的数量 -->
+	<!-- Integer countByUid(Integer uid) -->
+	<select id="countByUid" 
+		resultType="java.lang.Integer">
+		select count(*) from t_address where uid = #{uid}
+	</select>
+	
+	<!-- 根据用户名查询用户数据详情 -->
+	<!-- User findByUsername(String username) -->
+	<select id="findByUsername" 
+		resultMap="UserEntityMap">
+		select * from t_user where username = #{username}
+	</select>
+	
+</mapper>
