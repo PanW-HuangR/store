@@ -1,0 +1,21 @@
+package cn.tedu.store.service;
+
+import java.util.List;
+
+import cn.tedu.store.entity.District;
+
+/**
+ * 处理省/市/区数据的业务层接口
+ * @author dell
+ *
+ */
+public interface IDistrictService {
+	
+	/**
+	 * 查询全国所有省/某省所有市/某市所有区的列表
+	 * @param parent 父亲单位的行政代号，如果需要查询全国所有省，则使用"86"作为父级代号
+	 * @return 匹配的全国所有省/某省所有市/某市所有区的列表
+	 */
+	List<District> getByParent(String parent);
+	
+}

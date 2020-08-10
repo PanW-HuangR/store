@@ -32,6 +32,7 @@ public class InterceptorConfigurer implements WebMvcConfigurer {
 		patterns.add("/css/**");
 		patterns.add("/images/**");
 		patterns.add("/js/**");
+		patterns.add("/districts/**");
 		
 		//  addPathPatterns(/**): 拦截全部请求       excludePathPatterns(patterns)：排除集合里面的请求不拦截
 		registry.addInterceptor(interceptor)
