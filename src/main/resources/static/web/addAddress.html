@@ -286,12 +286,19 @@
 		</footer>
 		<!--页脚结束-->
     <script type="text/javascript">
+    let defaultOption = '<option value="0">----- 请选择 -----</option>';
+    
       $(document).ready(function(){
     	 showProvinceList();
+    	 $("#city-list").append(defaultOption);
+    	 $("#area-list").append(defaultOption);
       });
       
       $("#province-list").change(function (){
     	  showCityList();
+    	  showAreaList();//$("#area-list").empty();
+    	  				 //$("#area-list").append(defaultOption);
+    	  
       });
       
       $("#city-list").change(function (){
@@ -299,7 +306,6 @@
       });
       
       function showProvinceList(){
-    	  let defaultOption = '<option value="0">----- 请选择 -----</option>';
     	  $("#province-list").append(defaultOption);
     	  
     	  console.log("准备加载全国所有省的列表......");
@@ -312,7 +318,7 @@
             	  console.log("count="+jsonResult.data.length);
             	  for(let i=0;i<jsonResult.data.length;i++){
             		  console.log(jsonResult.data[i].name);
-            		  let option = '<option value="'+jsonResult.data[i].code+'" name="'+jsonResult.data[i].name+'">'+jsonResult.data[i].name+'</option>';
+            		  let option = '<option value="'+jsonResult.data[i].code+'">'+jsonResult.data[i].name+'</option>';
             		  $("#province-list").append(option);
             	  }
               }
@@ -321,11 +327,15 @@
       
       function showCityList(){
     	  let parent = $("#province-list").val();
-    	  let parentName = $("#province-list option:selected").name;
     	  $("#city-list").empty();
-    	  $("#area-list").empty();
     	  
-    	  console.log("准备加载"+parentName+"的所有城市......");
+    	  $("#city-list").append(defaultOption);
+    	  
+    	  if(parent == "0"){
+    		  return;
+    	  }
+    	  
+    	  console.log("准备加载该省的所有城市......");
     	  $.ajax({
               "url":"/districts/",
               "data":"parent="+parent,
@@ -345,6 +355,8 @@
       function showAreaList(){
     	  let parent = $("#city-list").val();
     	  $("#area-list").empty();
+    	  
+    	  $("#area-list").append(defaultOption);
     	  
     	  console.log("准备加载该市的所有区列表......");
     	  $.ajax({
