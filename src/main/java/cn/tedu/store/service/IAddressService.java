@@ -1,5 +1,7 @@
 package cn.tedu.store.service;
 
+import java.util.List;
+
 import cn.tedu.store.entity.Address;
 
 /**
@@ -17,4 +19,18 @@ public interface IAddressService {
 	 */
 	void addNew(Integer uid,String username,Address address);
 	
+	/**
+	 * 查询某用户的收货地址列表
+	 * @param uid 用户的id
+	 * @return 该用户的收货地址列表
+	 */
+	List<Address> getByUid(Integer uid);
+	
+	/**
+	 * 将某地址设置成默认地址
+	 * @param aid 地址id
+	 * @param uid 用户id
+	 * @param username 用户名
+	 */
+	void setDefault(Integer aid,Integer uid,String username);
 }

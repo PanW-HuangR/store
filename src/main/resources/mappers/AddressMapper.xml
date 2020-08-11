@@ -38,6 +38,27 @@
 	
 	<!-- **********************************改********************************** -->
 	
+	<!-- 在点击设置默认按钮时，先将该用户的所有收货地址全部设置成非默认 -->
+	<!-- Integer updateNonDefaultByUid(Integer uid) -->
+	<update id="updateNonDefaultByUid">
+		update t_address set is_default = 0 where uid=#{uid}
+	</update>
+	
+	<!-- 将指定的收货地址设置为默认 -->
+	<!-- Integer updateDefaultByAid(
+			@Param("aid") Integer aid,
+			@Param("modifiedUser") String modifiedUser,
+			@Param("modifiedTime") Date modifiedTime) -->
+	<update id="updateDefaultByAid">
+		update t_address 
+		set 
+			is_default = 1,
+			modified_user = #{modifiedUser},
+			modified_time = #{modifiedTime}
+		where 
+			aid = #{aid}
+	</update>
+	
 	<!-- **********************************查********************************** -->
 	
 	<!-- 统计某用户的收货地址数据的数量 -->
@@ -45,6 +66,34 @@
 	<select id="countByUid" 
 		resultType="java.lang.Integer">
 		select count(*) from t_address where uid = #{uid}
+	</select>
+	
+	<resultMap type="cn.tedu.store.entity.Address" id="AddressEntityMap">
+		<id column="aid" property="aid" />
+		<result column="province_code" property="provinceCode" />
+		<result column="province_name" property="provinceName" />
+		<result column="city_name" property="cityName" />
+		<result column="city_code" property="cityCode" />
+		<result column="area_name" property="areaName" />
+		<result column="area_code" property="areaCode" />
+		<result column="is_default" property="isDefault" />
+		<result column="created_user" property="createdUser"/>
+		<result column="created_time" property="createdTime"/>
+		<result column="modified_user" property="modifiedUser"/>
+		<result column="modified_time" property="modifiedTime"/>
+	</resultMap>
+	<!-- 查询某用户的收货地址列表 -->
+	<!-- List<Address> findByUid(Integer uid) -->
+	<select id="findByUid" 
+		resultMap="AddressEntityMap">
+		select * from t_address where uid = #{uid} order by is_default desc, modified_time desc
+	</select>
+	
+	<!-- 根据收货地址id查询收货地址详情-->
+	<!-- Address findByAid(Integer aid) -->
+	<select id="findByAid" 
+		resultMap="AddressEntityMap">
+		select * from t_address where aid = #{aid}
 	</select>
 	
 </mapper>

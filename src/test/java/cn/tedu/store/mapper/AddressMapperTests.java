@@ -1,5 +1,8 @@
 package cn.tedu.store.mapper;
 
+import java.util.Date;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,36 @@ public class AddressMapperTests {
 		Integer uid = 2;
 		Integer rows = addressMapper.countByUid(uid);
 		System.err.println("rows="+rows);
+	}
+	
+	@Test
+	public void findByUid() {
+		Integer uid = 4;
+		List<Address> list = addressMapper.findByUid(uid);
+		for (Address address : list) {
+			System.err.println(address);
+		}
+	}
+	
+	@Test
+	public void updateNonDefaultByUid() {
+		Integer uid = 4;
+		Integer rows = addressMapper.updateNonDefaultByUid(uid);
+		System.err.println("rows="+rows);
+	}
+	
+	@Test
+	public void updateDefaultByAid() {
+		Integer aid = 11;
+		Integer rows = addressMapper.updateDefaultByAid(aid, "zhangsan", new Date());
+		System.err.println("rows="+rows);
+	}
+	
+	@Test
+	public void findByAid() {
+		Integer aid = 11;
+		Address address = addressMapper.findByAid(aid);
+		System.err.println(address);
 	}
 	
 }

@@ -1,8 +1,11 @@
 package cn.tedu.store.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +32,14 @@ public class AddressController extends BaseController {
 		String username = getUsernameFromSession(session);
 		iAddressService.addNew(uid, username, address);
 		return new JsonResult<Void>(OK);
+	}
+	
+	//http://localhost:80/addresses
+	@GetMapping("")
+	public JsonResult<List<Address>> getByUid(HttpSession session){
+		Integer uid = getUidFromSession(session);
+		List<Address> list = iAddressService.getByUid(uid);
+		return new JsonResult<List<Address>>(OK, list);
 	}
 	
 }

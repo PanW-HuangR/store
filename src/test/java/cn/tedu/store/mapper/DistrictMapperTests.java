@@ -15,6 +15,7 @@ import cn.tedu.store.entity.District;
 public class DistrictMapperTests {
 	@Autowired
 	private DistrictMapper districtMapper;
+	
 	@Test
 	public void findByParent() {
 		String parent = "86";
@@ -23,5 +24,12 @@ public class DistrictMapperTests {
 		for (District district : list) {
 			System.err.println(district);
 		}
+	}
+	
+	@Test
+	public void findNameByCode() {
+		String code = "130229";
+		String name = districtMapper.findNameByCode(code);
+		System.err.println(name);
 	}
 }

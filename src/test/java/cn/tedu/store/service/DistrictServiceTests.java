@@ -27,4 +27,11 @@ public class DistrictServiceTests {
 		}
 	}
 	
+	@Test
+	public void getNameByCode() {
+		String code = "110101";
+		String name = iDistrictService.getNameByCode(code);
+		System.err.println(name);
+	}
+	
 }

@@ -19,4 +19,11 @@
 		select * from t_dict_district where parent = #{parent} order by code 
 	</select>
 	
+	<!-- 根据省/市/区的行政代号查询名称 -->
+	<!-- String findNameByCode(String code) -->
+	<select id="findNameByCode" 
+		resultType="java.lang.String">
+		select name from t_dict_district where code = #{code} 
+	</select>
+	
 </mapper>
