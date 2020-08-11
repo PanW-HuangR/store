@@ -118,7 +118,7 @@ public class AddressServiceImpl implements IAddressService {
 		//判断返回值是否不为1
 		if(rows != 1) {
 			//是：UpdateException
-			throw new UpdateException("设置默认收货地址失败[1]！更新收货地址数据是出现未知错误，请联系系统管理员！");
+			throw new UpdateException("设置默认收货地址失败[2]！更新收货地址数据是出现未知错误，请联系系统管理员！");
 		}
 		
 	}

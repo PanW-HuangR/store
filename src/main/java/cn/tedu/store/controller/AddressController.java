@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,16 @@ public class AddressController extends BaseController {
 		Integer uid = getUidFromSession(session);
 		List<Address> list = iAddressService.getByUid(uid);
 		return new JsonResult<List<Address>>(OK, list);
+	}
+	
+	//RestFull网址请求设计风格
+	//http://localhost:80/addresses/21/set_default
+	@RequestMapping("{aid}/set_default")
+	public JsonResult<Void> setDefault(@PathVariable("aid") Integer aid,HttpSession session){
+		Integer uid = getUidFromSession(session);
+		String username = getUsernameFromSession(session);
+		iAddressService.setDefault(aid, uid, username);
+		return new JsonResult<Void>(OK);
 	}
 	
 }
