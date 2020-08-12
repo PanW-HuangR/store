@@ -33,4 +33,12 @@ public interface IAddressService {
 	 * @param username 用户名
 	 */
 	void setDefault(Integer aid,Integer uid,String username);
+	
+	/**
+	 * 将某地址删除
+	 * @param aid 地址id
+	 * @param uid 用户id
+	 * @param username 用户名
+	 */
+	void delete(Integer aid,Integer uid,String username);
 }

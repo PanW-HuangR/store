@@ -36,6 +36,12 @@
 	
 	<!-- **********************************删********************************** -->
 	
+	<!-- 根据收货地址id，删除数据 -->
+	<!-- Integer deleteByAid(Integer aid) -->
+	<delete id="deleteByAid">
+		delete from t_address where aid = #{aid}
+	</delete>
+	
 	<!-- **********************************改********************************** -->
 	
 	<!-- 在点击设置默认按钮时，先将该用户的所有收货地址全部设置成非默认 -->
@@ -94,6 +100,13 @@
 	<select id="findByAid" 
 		resultMap="AddressEntityMap">
 		select * from t_address where aid = #{aid}
+	</select>
+	
+	<!-- 查询某用户最后修改的那条收货地址-->
+	<!-- Address findLastModifiedByUid(Integer uid) -->
+	<select id="findLastModifiedByUid" 
+		resultMap="AddressEntityMap">
+		select * from t_address where uid = #{uid} order by modified_time desc limit 0,1
 	</select>
 	
 </mapper>

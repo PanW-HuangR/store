@@ -55,4 +55,17 @@ public class AddressServiceTests {
 		}
 	}
 	
+	@Test
+	public void delete() {
+		try {
+			Integer aid = 16;
+			Integer uid = 4;
+			String username = "zhangsan";
+			iAddressService.delete(aid, uid, username);
+		} catch (ServiceException e) {
+			System.err.println(e.getClass().getName());
+			System.err.println(e.getMessage());
+		}
+	}
+	
 }

@@ -66,4 +66,18 @@ public class AddressMapperTests {
 		System.err.println(address);
 	}
 	
+	@Test
+	public void deleteByAid() {
+		Integer aid = 10;
+		Integer rows = addressMapper.deleteByAid(aid);
+		System.err.println("rows="+rows);
+	}
+	
+	@Test
+	public void findLastModifiedByUid() {
+		Integer uid = 4;
+		Address address = addressMapper.findLastModifiedByUid(uid);
+		System.err.println(address);
+	}
+	
 }
