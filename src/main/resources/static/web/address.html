@@ -292,12 +292,14 @@
 						+'<td>#{address}</td>'
 						+'<td>#{phone}</td>'
 						+'<td><a class="btn btn-xs btn-info"><span class="fa fa-edit"></span> 修改</a></td>'
-						+'<td><a class="btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>'
-						+'<td><a onclick="setDefault(#{aid})" class="btn btn-xs add-def btn-default">设为默认</a></td>'
+						+'<td><a onclick="deleteByAid(#{aid1})" class="btn btn-xs add-del btn-info"><span class="fa fa-trash-o"></span> 删除</a></td>'
+						+'<td><a onclick="setDefault(#{aid2})" class="btn btn-xs add-def btn-default">设为默认</a></td>'
 				  +'</tr>';
 				  
 				  //字符串的不可变性
-				  html = html.replace("#{aid}",jsonResult.data[i].aid);
+				  html = html.replace("#{aid1}",jsonResult.data[i].aid);
+				  html = html.replace("#{aid2}",jsonResult.data[i].aid);
+				  //html = html.replace(/#{aid}/g,jsonResult.data[i].aid);//将全部的aid全部替换
 				  html = html.replace("#{tag}",jsonResult.data[i].tag);
 				  html = html.replace("#{receiver}",jsonResult.data[i].receiver);
 				  html = html.replace("#{address}",jsonResult.data[i].provinceName+jsonResult.data[i].cityName+jsonResult.data[i].areaName+jsonResult.data[i].address);
@@ -322,9 +324,32 @@
   	              alert(jsonResult.message);
   	            }
   	            showAddressList();
-  	          }
+  	          },
+              "error":function(xhr){
+            	  alert("您的登录信息已经过期，请重新登录！\n\nHTTP响应码：" + xhr.status);
+            	  location.href = "login.html";
+              }
   	        });
     	}
+    	
+    	function deleteByAid(aid){
+  	        $.ajax({
+  	          "url":"/addresses/" + aid + "/delete",
+  	          "type":"post",
+  	          "dataType":"json",
+  	          "success":function(jsonResult){
+  	            if(jsonResult.state != 2000){
+  	              alert(jsonResult.message);
+  	            }
+  	            showAddressList();
+  	          },
+              "error":function(xhr){
+            	  alert("您的登录信息已经过期，请重新登录！\n\nHTTP响应码：" + xhr.status);
+            	  location.href = "login.html";
+              }
+  	        });
+    	}
+    	
     </script>
 	</body>
 
