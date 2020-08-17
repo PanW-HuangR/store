@@ -15,6 +15,7 @@ import cn.tedu.store.service.ex.AddressNotFoundException;
 import cn.tedu.store.service.ex.DeleteException;
 import cn.tedu.store.service.ex.InsertException;
 import cn.tedu.store.service.ex.PasswordNotMatchException;
+import cn.tedu.store.service.ex.ProductNotFoundException;
 import cn.tedu.store.service.ex.ServiceException;
 import cn.tedu.store.service.ex.UpdateException;
 import cn.tedu.store.service.ex.UserNotFoundException;
@@ -39,6 +40,8 @@ public class ExceptionHandlerController {
 			jsonResult.setState(4004);
 		}  else if (ex instanceof AccessDeniedException) {
 			jsonResult.setState(4005);
+		}  else if (ex instanceof ProductNotFoundException) {
+			jsonResult.setState(4006);
 		}  else if (ex instanceof InsertException) {
 			jsonResult.setState(5000);
 		}  else if (ex instanceof DeleteException) {

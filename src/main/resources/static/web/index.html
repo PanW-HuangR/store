@@ -177,7 +177,7 @@
 					<div class="panel-heading">
 						<p class="panel-title">热销排行</p>
 					</div>
-					<div class="panel-body panel-item">
+					<div id="hot-list" class="panel-body panel-item">
 						<div class="col-md-12">
 							<div class="col-md-7 text-row-2"><a href="product.html">广博(GuangBo)10本装40张A5牛皮纸记事本子日记本办公软抄本GBR0731</a></div>
 							<div class="col-md-2">¥23</div>
@@ -287,6 +287,40 @@
 
 		</footer>
 		<!--页脚结束-->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        showHotList();
+      });
+      
+      function showHotList() {
+    	  console.log("准备加载热销商品的列表......");
+    	  $("#hot-list").empty();
+      	  $.ajax({
+            "url":"/products/hot",
+            "type":"get",
+            "dataType":"json",
+            "success":function(jsonResult){
+          	  console.log("count="+jsonResult.data.length);
+          	  for(let i=0;i<jsonResult.data.length;i++){
+          		  console.log(jsonResult.data[i].title);
+          		  let html = 
+          		   '<div class="col-md-12">'
+							+'<div class="col-md-7 text-row-2"><a href="product.html">#{title}</a></div>'
+							+'<div class="col-md-2">￥#{price}</div>'
+							+'<div class="col-md-3"><img src="..#{image}collect.png" class="img-responsive" /></div>'
+				  +'</div>';
+				  
+				  //字符串的不可变性
+				  //html = html.replace("#{aid1}",jsonResult.data[i].aid);
+				  html = html.replace(/#{title}/g,jsonResult.data[i].title);//将 全部的title全部替换
+				  html = html.replace(/#{price}/g,jsonResult.data[i].price);
+				  html = html.replace(/#{image}/g,jsonResult.data[i].image);
+				  $("#hot-list").append(html);
+          	  }
+            }
+          });
+      }
+    </script>
 	</body>
 
 </html>

@@ -127,7 +127,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<h1 class="col-md-12 title-row-1" title="戴尔Dell 燃700R1605银色">戴尔Dell 燃700R1605银色</h1>
+					<h3 id="product-title" class="col-md-12">戴尔Dell 燃700R1605银色</h3>
 					<p class="col-md-12 text-row-1"><small>仅上海，广州，沈阳仓有货！预购从速！</small></p>
 					<div class="col-md-12 price-bar">
 						<small>学员售价：</small> ¥4899.00
@@ -295,6 +295,24 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $.ajax({
+          "url":"/products/10000006/details",
+          "type":"get",
+          "dataType":"json",
+          "success":function(jsonResult){
+            if(jsonResult.state == 2000){
+              console.log("title="+jsonResult.data.title);
+              $("#product-title").html(jsonResult.data.title);
+            }
+            else{
+              alert(jsonResult.message);
+            }
+          }
+        });
+      });
+    </script>
 	</body>
 
 </html>

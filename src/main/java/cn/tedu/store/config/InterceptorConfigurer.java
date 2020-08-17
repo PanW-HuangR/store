@@ -28,11 +28,14 @@ public class InterceptorConfigurer implements WebMvcConfigurer {
 		patterns.add("/users/login");
 		patterns.add("/web/register.html");
 		patterns.add("/web/login.html");
+		patterns.add("/web/index.html");
+		patterns.add("/web/product.html");
 		patterns.add("/bootstrap3/**");
 		patterns.add("/css/**");
 		patterns.add("/images/**");
 		patterns.add("/js/**");
 		patterns.add("/districts/**");
+		patterns.add("/products/**");
 		
 		//  addPathPatterns(/**): 拦截全部请求       excludePathPatterns(patterns)：排除集合里面的请求不拦截
 		registry.addInterceptor(interceptor)

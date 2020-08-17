@@ -26,7 +26,13 @@
 	<!-- 查询热销商品 -->
 	<!-- List<Product> findHoltList() -->
 	<select id="findHotList" resultMap="ProductEntityMap">
-		select * from t_product where status = 1 order by priority desc limit 0,4
+		select * from t_product where status = 1 order by priority desc limit 0, 4
+	</select>
+	
+	<!-- 查询商品详情 -->
+	<!-- Product findById(Integer id) -->
+	<select id="findById" resultMap="ProductEntityMap">
+		select * from t_product where id = #{id}
 	</select>
 	
 </mapper>
