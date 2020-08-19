@@ -96,41 +96,41 @@
 			<div class="col-md-offset-1 col-md-10">
 				<div class="col-md-6">
 					<div data="1" class="img-big move-img col-md-12">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/1_big.png" class="img-responsive" />
+						<img id="product-image-1-big" src="../images/portal/11DELLran7000R1605Ssilvery/1_big.png" class="img-responsive" />
 					</div>
 					<div data="2" class="img-big move-img col-md-12">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/2_big.png" class="img-responsive" />
+						<img id="product-image-2-big" src="../images/portal/11DELLran7000R1605Ssilvery/2_big.png" class="img-responsive" />
 					</div>
 					<div data="3" class="img-big move-img col-md-12">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/3_big.png" class="img-responsive" />
+						<img id="product-image-3-big" src="../images/portal/11DELLran7000R1605Ssilvery/3_big.png" class="img-responsive" />
 					</div>
 					<div data="4" class="img-big move-img col-md-12">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/4_big.png" class="img-responsive" />
+						<img id="product-image-4-big" src="../images/portal/11DELLran7000R1605Ssilvery/4_big.png" class="img-responsive" />
 					</div>
 					<div data="5" class="img-big move-img col-md-12">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/5_big.png" class="img-responsive" />
+						<img id="product-image-5-big" src="../images/portal/11DELLran7000R1605Ssilvery/5_big.png" class="img-responsive" />
 					</div>
 					<div data="1" class="col-md-2 img-small">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/1.jpg" class="img-responsive" />
+						<img id="product-image-1" src="../images/portal/11DELLran7000R1605Ssilvery/1.jpg" class="img-responsive" />
 					</div>
 					<div data="2" class="col-md-2 img-small">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/2.jpg" class="img-responsive" />
+						<img id="product-image-2" src="../images/portal/11DELLran7000R1605Ssilvery/2.jpg" class="img-responsive" />
 					</div>
 					<div data="3" class="col-md-2 img-small">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/3.jpg" class="img-responsive" />
+						<img id="product-image-3" src="../images/portal/11DELLran7000R1605Ssilvery/3.jpg" class="img-responsive" />
 					</div>
 					<div data="4" class="col-md-2 img-small">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/4.jpg" class="img-responsive" />
+						<img id="product-image-4" src="../images/portal/11DELLran7000R1605Ssilvery/4.jpg" class="img-responsive" />
 					</div>
 					<div data="5" class="col-md-2 img-small">
-						<img src="../images/portal/11DELLran7000R1605Ssilvery/5.jpg" class="img-responsive" />
+						<img id="product-image-5" src="../images/portal/11DELLran7000R1605Ssilvery/5.jpg" class="img-responsive" />
 					</div>
 				</div>
 				<div class="col-md-6">
 					<h3 id="product-title" class="col-md-12">戴尔Dell 燃700R1605银色</h3>
-					<p class="col-md-12 text-row-1"><small>仅上海，广州，沈阳仓有货！预购从速！</small></p>
+					<p class="col-md-12 text-row-1"><small id="product-sell-point">仅上海，广州，沈阳仓有货！预购从速！</small></p>
 					<div class="col-md-12 price-bar">
-						<small>学员售价：</small> ¥4899.00
+						<small>学员售价：</small> ¥<span id="product-price">4899.00</span>
 						<div><small>*退货补运费 *7天无理由退货 *24小时快速退款 </small></div>
 					</div>
 					<form class="form-inline product-form col-md-12" role="form">
@@ -296,15 +296,36 @@
 		</footer>
 		<!--页脚结束-->
     <script type="text/javascript">
+      (function ($) {
+      	$.getUrlParam = function (name) {
+      		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      		var r = window.location.search.substr(1).match(reg);
+      		if (r != null) 
+      			return unescape(r[2]);
+      		return null;
+      	}
+      })(jQuery);
+      
+      let id;
+    
       $(document).ready(function(){
+    	id = $.getUrlParam("productid");//参数productid是指网址中的id字样
+    	console.log("id="+id);
         $.ajax({
-          "url":"/products/10000006/details",
+          "url":"/products/"+id+"/details",
           "type":"get",
           "dataType":"json",
           "success":function(jsonResult){
             if(jsonResult.state == 2000){
               console.log("title="+jsonResult.data.title);
               $("#product-title").html(jsonResult.data.title);
+              $("#product-sell-point").html(jsonResult.data.sellPoint);
+              $("#product-price").html(jsonResult.data.price);
+              
+              for(let i=0;i<5;i++){
+            	  $("#product-image-"+i+"-big").attr("src",".."+jsonResult.data.image+i+"_big.png");
+                  $("#product-image-"+i).attr("src",".."+jsonResult.data.image+i+".jpg");
+              }
             }
             else{
               alert(jsonResult.message);

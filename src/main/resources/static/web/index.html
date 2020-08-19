@@ -305,7 +305,7 @@
           		  console.log(jsonResult.data[i].title);
           		  let html = 
           		   '<div class="col-md-12">'
-							+'<div class="col-md-7 text-row-2"><a href="product.html">#{title}</a></div>'
+							+'<div class="col-md-7 text-row-2"><a href="product.html?id=#{id}">#{title}</a></div>'
 							+'<div class="col-md-2">￥#{price}</div>'
 							+'<div class="col-md-3"><img src="..#{image}collect.png" class="img-responsive" /></div>'
 				  +'</div>';
@@ -315,6 +315,7 @@
 				  html = html.replace(/#{title}/g,jsonResult.data[i].title);//将 全部的title全部替换
 				  html = html.replace(/#{price}/g,jsonResult.data[i].price);
 				  html = html.replace(/#{image}/g,jsonResult.data[i].image);
+				  html = html.replace(/#{id}/g,jsonResult.data[i].id);
 				  $("#hot-list").append(html);
           	  }
             }
