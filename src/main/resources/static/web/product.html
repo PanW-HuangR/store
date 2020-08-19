@@ -309,7 +309,7 @@
       let id;
     
       $(document).ready(function(){
-    	id = $.getUrlParam("productid");//参数productid是指网址中的id字样
+    	id = $.getUrlParam("id");//参数id是指网址中的id字样
     	console.log("id="+id);
         $.ajax({
           "url":"/products/"+id+"/details",

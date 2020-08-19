@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tedu.store.mapper.CartMapper">
+
+	<resultMap type="cn.tedu.store.entity.Cart" id="CartEntityMap">
+		<id column="cid" property="cid" />
+		<result column="created_user" property="createdUser" />
+		<result column="created_time" property="createdTime" />
+		<result column="modified_user" property="modifiedUser" />
+		<result column="modified_time" property="modifiedTime" />
+	</resultMap>
+	
+	<!-- **********************************增********************************** -->
+	<!-- 插入购物车数据 -->
+	<!-- Integer insert(Cart cart) -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="cid">
+		insert into t_cart(
+			uid,pid,
+			num,price,
+			created_user,created_time,
+			modified_user,modified_time
+		)values(
+			#{uid},#{pid},
+			#{num},#{price},
+			#{createdUser},#{createdTime},
+			#{modifiedUser},#{modifiedTime}
+		)
+	</insert>
+	
+	<!-- **********************************删********************************** -->
+	
+	<!-- **********************************改********************************** -->
+	<!-- 修改购物车数据中商品的数量 -->
+	<!-- Integer updateNumByCid(
+			@Param("cid") Integer cid,
+			@Param("num") Integer num,
+			@Param("modifiedUser") String modifiedUser,
+			@Param("modifiedTime") Date modifiedTime) -->
+	<insert id="updateNumByCid">
+		update t_cart 
+		set
+			num=#{num},
+			modified_user=#{modifiedUser},
+			modified_time=#{modifiedTime}
+		where
+			cid=#{cid}
+	</insert>
+	
+	<!-- **********************************查********************************** -->
+	<!-- 根据用户id与商品id查询购物车数量 -->
+	<!-- Cart findByUidAndPid(
+			@Param("uid") Integer uid,
+			@Param("pid") Integer pid) -->
+	<select id="findByUidAndPid" resultMap="CartEntityMap">
+		select * from t_cart where uid=#{uid} and pid=#{pid}
+	</select>
+	
+</mapper>
