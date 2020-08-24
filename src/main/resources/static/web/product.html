@@ -130,7 +130,7 @@
 					<h3 id="product-title" class="col-md-12">戴尔Dell 燃700R1605银色</h3>
 					<p class="col-md-12 text-row-1"><small id="product-sell-point">仅上海，广州，沈阳仓有货！预购从速！</small></p>
 					<div class="col-md-12 price-bar">
-						<small>学员售价：</small> ¥<span id="product-price">4899.00</span>
+						<small>学员售价：</small> ¥<span id="product-price">4899</span>.00
 						<div><small>*退货补运费 *7天无理由退货 *24小时快速退款 </small></div>
 					</div>
 					<form class="form-inline product-form col-md-12" role="form">
@@ -147,7 +147,7 @@
 							<input class="btn btn-primary btn-lg btn-block" type="button" value="立即购买">
 						</div>
 						<div class="col-md-12 form-space">
-							<button type="button" class="btn btn-default go-cart"><span class="fa fa-cart-plus"></span> 加入购物车</button>
+							<button id="btn-add-to-cart" type="button" ><span class="fa fa-cart-plus"></span> 加入购物车</button>
 							<button type="button" class="btn btn-default"><span class="fa fa-heart-o"></span> 加入收藏</button>
 						</div>
 					</form>
@@ -296,43 +296,69 @@
 		</footer>
 		<!--页脚结束-->
     <script type="text/javascript">
-      (function ($) {
-      	$.getUrlParam = function (name) {
-      		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-      		var r = window.location.search.substr(1).match(reg);
-      		if (r != null) 
-      			return unescape(r[2]);
-      		return null;
-      	}
-      })(jQuery);
-      
-      let id;
+    (function ($) {
+    	$.getUrlParam = function (name) {
+    		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    		var r = window.location.search.substr(1).match(reg);
+    		if (r != null) 
+    			return unescape(r[2]);
+    		return null;
+    	}
+    })(jQuery);
     
-      $(document).ready(function(){
-    	id = $.getUrlParam("id");//参数id是指网址中的id字样
-    	console.log("id="+id);
-        $.ajax({
-          "url":"/products/"+id+"/details",
-          "type":"get",
-          "dataType":"json",
-          "success":function(jsonResult){
-            if(jsonResult.state == 2000){
-              console.log("title="+jsonResult.data.title);
-              $("#product-title").html(jsonResult.data.title);
-              $("#product-sell-point").html(jsonResult.data.sellPoint);
-              $("#product-price").html(jsonResult.data.price);
-              
-              for(let i=0;i<5;i++){
-            	  $("#product-image-"+i+"-big").attr("src",".."+jsonResult.data.image+i+"_big.png");
-                  $("#product-image-"+i).attr("src",".."+jsonResult.data.image+i+".jpg");
-              }
-            }
-            else{
-              alert(jsonResult.message);
-            }
-          }
-        });
-      });
+    let id;
+    
+    $(document).ready(function() {
+    	id = $.getUrlParam("id");
+    	console.log("id=" + id);
+    	
+    	$.ajax({
+    		"url":"/products/" + id + "/details",
+    		"type":"get",
+    		"dataType":"json",
+    		"success":function(json) {
+    			if (json.state == 2000) {
+    				console.log("title=" + json.data.title);
+    				$("#product-title").html(json.data.title);
+    				$("#product-sell-point").html(json.data.sellPoint);
+    				$("#product-price").html(json.data.price);
+    				
+    				for (let i = 1; i <= 5; i++) {
+        				$("#product-image-" + i + "-big").attr("src", ".." + json.data.image + i + "_big.png");
+        				$("#product-image-" + i).attr("src", ".." + json.data.image + i + ".jpg");
+    				}
+    			} else {
+    				alert(json.message);
+    				// location.href = "index.html";
+    			}
+    		}
+    	});
+    });
+    
+    $("#btn-add-to-cart").click(function() {
+    	$.ajax({
+    		"url":"/carts/add_to_cart",
+    		"data":{
+    			"pid":id,
+    			"amount":$("#num").val()
+    		},
+    		"type":"post",
+    		"dataType":"json",
+    		"success":function(json) {
+    			if (json.state == 2000) {
+    				alert("操作成功！");
+    				location.href = "cart.html";
+    			} else {
+    				alert(json.message);
+    			}
+    		},
+    		"error":function(xhr) {
+    			alert("您还没有登录，或登录信息已经过期，请重新登录！"
+    					+ "\n\nHTTP响应码：" + xhr.status);
+    			// location.href = "login.html";
+    		}
+    	});
+    });
     </script>
 	</body>
 

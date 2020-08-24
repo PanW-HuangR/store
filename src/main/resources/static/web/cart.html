@@ -20,7 +20,6 @@
 		<link rel="stylesheet" type="text/css" href="../css/top.css" />
 		<link rel="stylesheet" type="text/css" href="../css/footer.css" />
 		<link rel="stylesheet" type="text/css" href="../css/cart.css" />
-		<script src="../js/cart.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -111,7 +110,7 @@
 										<th>操作</th>
 									</tr>
 								</thead>
-								<tbody class="cart-body">
+								<tbody id="cart-list" class="cart-body">
 									<tr>
 										<td>
 											<input type="checkbox" class="ckitem" />
@@ -268,12 +267,51 @@
 		</footer>
 		<!--页脚结束-->
 		<script type="text/javascript">
-			$(function() {
-				//返回链接
-				$(".link-account").click(function() {
-					location.href = "orderConfirm.html";
-				})
-			})
+			$(document).ready(function() {
+				showCartList();
+			});
+			
+			function showCartList(){
+		    	  console.log("准备加载用户收货地址的列表......");
+		    	  $("#cart-list").empty();
+		      	  $.ajax({
+		            "url":"/carts/",
+		            "type":"get",
+		            "dataType":"json",
+		            "success":function(json){
+		          	  console.log("count="+json.data.length);
+		          	  for(let i=0;i<json.data.length;i++){
+		          		  console.log(json.data[i].title);
+		          		  let html = 
+		          		   '<tr>'
+								+'<td>'
+								+'	<input type="checkbox" class="ckitem" />'
+								+'</td>'
+								+'<td><img src="..#{image}collect.png" class="img-responsive" /></td>'
+								+'<td>#{title}</td>'
+								+'<td>¥<span id="goodsPrice1">#{realPrice}</span></td>'
+								+'<td>'
+								+'	<input type="button" value="-" class="num-btn" onclick="reduceNum(1)" />'
+								+'	<input type="text" id="goodsCount1" size="2" readonly="readonly" class="num-text" value="#{num}">'
+								+'	<input type="button" value="+" class="num-btn" onclick="addNum(1)" />'
+								+'</td>'
+								+'<td><span id="goodsCast1">¥#{totalPrice}</span></td>'
+								+'<td>'
+								+'	<input type="button" onclick="delCartItem(this)" class="cart-del btn btn-default btn-xs" value="删除" />'
+								+'</td>'
+						 +'</tr>';
+						  
+						  //字符串的不可变性
+						  html = html.replace(/#{image}/g,json.data[i].image);
+						  html = html.replace(/#{title}/g,json.data[i].title);
+						  html = html.replace(/#{realPrice}/g,json.data[i].realPrice);
+						  html = html.replace(/#{num}/g,json.data[i].num);
+						  html = html.replace(/#{totalPrice}/g,json.data[i].num*json.data[i].realPrice);
+						  $("#cart-list").append(html);
+		          	  }
+		            }
+		          });
+		    	}
 		</script>
 	</body>
 

@@ -1,10 +1,12 @@
 package cn.tedu.store.mapper;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
 import cn.tedu.store.entity.Cart;
+import cn.tedu.store.vo.CartVO;
 
 /**
  * 处理购物车数据的持久层接口
@@ -43,5 +45,19 @@ public interface CartMapper {
 	Cart findByUidAndPid(
 			@Param("uid") Integer uid,
 			@Param("pid") Integer pid);
+	
+	/**
+	 * 查询某用户的购物车数据的列表
+	 * @param uid 用户id
+	 * @return 该用户的购物车的数据列表
+	 */
+	List<CartVO> findVOByUid(Integer uid);
+	
+	/**
+	 * 
+	 * @param cids
+	 * @return
+	 */
+	List<CartVO> findVOByCids(Integer[] cids);
 	
 }

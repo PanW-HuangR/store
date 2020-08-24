@@ -115,7 +115,7 @@
 							<label for="name">
 								<p>选择收货地址：</p>
 							</label>
-							<select class="form-control">
+							<select id="address-list" class="form-control">
 								<option>八戒&nbsp;&nbsp;&nbsp;家&nbsp;&nbsp;&nbsp;北京市房山区高老庄3排6号&nbsp;&nbsp;&nbsp;1380***1234</option>
 								<option>八戒&nbsp;&nbsp;&nbsp;公司&nbsp;&nbsp;&nbsp;北京市海淀区中关村中路1号1001室&nbsp;&nbsp;&nbsp;1380***1234</option>
 								<option>八戒&nbsp;&nbsp;&nbsp;宿舍&nbsp;&nbsp;&nbsp;北京市海淀区永丰镇30号&nbsp;&nbsp;&nbsp;1380***1234</option>
@@ -136,14 +136,12 @@
 											<th width="20%">金额</th>
 										</tr>
 									</thead>
-									<tbody class="cart-body">
+									<tbody id="cart-list" class="cart-body">
 										<tr>
 											<td><img src="../images/portal/12DELLXPS13-silvery/collect.png" class="img-responsive" /></td>
 											<td>联想(Lenovo)小新Air13 Pro 13.3英寸14.8mm超轻薄笔记本电脑</td>
 											<td>¥<span>5298</span></td>
-											<td>
-												1
-											</td>
+											<td>1</td>
 											<td><span>5298</span></td>
 										</tr>
 									</tbody>
@@ -251,6 +249,74 @@
 
 		</footer>
 		<!--页脚结束-->
+    <script type="text/javascript">
+    $(document).ready(function() {
+    	showAddressList();
+    	
+    	showCartList();
+    });
+    
+    function showAddressList() {
+    	console.log("准备加载用户的收货地址列表……");
+    	$("#address-list").empty();
+    	$.ajax({
+    		"url":"/addresses/",
+    		"type":"get",
+    		"dataType":"json",
+    		"success":function(json) {
+    			console.log("count=" + json.data.length);
+    			for (let i = 0; i < json.data.length; i++) {
+    				console.log(json.data[i].receiver);
+    				let html = '<option value="#{aid}">#{receiver} | #{tag} | #{provinceName}#{cityName}#{areaName}#{address} | #{phone}</option>';
+					
+					// 字符串的不可变性
+					html = html.replace(/#{aid}/g, json.data[i].aid);
+					html = html.replace(/#{tag}/g, json.data[i].tag);
+					html = html.replace(/#{receiver}/g, json.data[i].receiver);
+					html = html.replace(/#{provinceName}/g, json.data[i].provinceName);
+					html = html.replace(/#{cityName}/g, json.data[i].cityName);
+					html = html.replace(/#{areaName}/g, json.data[i].areaName);
+					html = html.replace(/#{address}/g, json.data[i].address);
+					html = html.replace(/#{phone}/g, json.data[i].phone);
+						
+    				$("#address-list").append(html);
+    			}
+    		}
+    	});
+    }
+    
+    function showCartList() {
+    	console.log("准备购物车列表……");
+    	$("#cart-list").empty();
+    	$.ajax({
+    		"url":"/carts/get_by_cids",
+    		"data":location.search.substr(1),
+    		"type":"get",
+    		"dataType":"json",
+    		"success":function(json) {
+    			console.log("count=" + json.data.length);
+    			for (let i = 0; i < json.data.length; i++) {
+    				console.log(json.data[i].title);
+    				let html = '<tr>'
+						+ '<td><img src="..#{image}collect.png" class="img-responsive" /></td>'
+						+ '<td>#{title}</td>'
+						+ '<td>¥<span>#{realPrice}</span></td>'
+						+ '<td>#{num}</td>'
+						+ '<td>¥<span>#{totalPrice}</span></td>'
+						+ '</tr>';
+					
+					html = html.replace(/#{image}/g, json.data[i].image);
+					html = html.replace(/#{title}/g, json.data[i].title);
+					html = html.replace(/#{realPrice}/g, json.data[i].realPrice);
+					html = html.replace(/#{num}/g, json.data[i].num);
+					html = html.replace(/#{totalPrice}/g, json.data[i].realPrice * json.data[i].num);
+						
+    				$("#cart-list").append(html);
+    			}
+    		}
+    	});
+    }
+    </script>
 	</body>
 
 </html>
