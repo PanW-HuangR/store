@@ -54,9 +54,9 @@ public interface CartMapper {
 	List<CartVO> findVOByUid(Integer uid);
 	
 	/**
-	 * 
-	 * @param cids
-	 * @return
+	 * 根据多个数据id查询购物车数据的列表
+	 * @param cids 多个购物车数据id
+	 * @return 匹配的购物车数据的列表
 	 */
 	List<CartVO> findVOByCids(Integer[] cids);
 	

@@ -1,6 +1,7 @@
 package cn.tedu.store.service.impl;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,20 @@ public class CartServiceImpl implements ICartService {
 		return findVOByUid(uid);
 	}
 	
+	@Override
+	public List<CartVO> getVOByCids(Integer[] cids, Integer uid) {
+		List<CartVO> carts = findVOByCids(cids);
+		// 遍历查询结果，判断集合中元素是否归属于当前用户，如果不是则移除
+		Iterator<CartVO> iterator = carts.iterator();
+		while (iterator.hasNext()) {
+			CartVO cartVO = (CartVO) iterator.next();
+			if(!cartVO.getUid().equals(uid)) {
+				iterator.remove();
+			}
+		}
+		return carts;
+	}
+	
 	
 	//-----------------------------------------------
 	/**
@@ -118,4 +133,13 @@ public class CartServiceImpl implements ICartService {
 		return cartMapper.findVOByUid(uid);
 	}
 	
+	/**
+	 * 根据多个数据id查询购物车数据的列表
+	 * @param cids 多个购物车数据id
+	 * @return 匹配的购物车数据的列表
+	 */
+	private List<CartVO> findVOByCids(Integer[] cids){
+		return cartMapper.findVOByCids(cids);
+	}
+
 }

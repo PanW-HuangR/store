@@ -95,7 +95,7 @@
 						<p class="panel-title"><span class="fa fa-shopping-cart"></span> 购物车</p>
 					</div>
 					<div class="panel-body">
-						<form role="form">
+						<form role="form" action="orderConfirm.html">
 							<!--购物车表格开始-->
 							<table class="cart-table" width="100%">
 								<thead>
@@ -173,7 +173,7 @@
 							</div>
 							<div>
 								<span class="pull-right">
-								<input type="button" value="  结  算  " class="btn btn-primary btn-lg link-account" />
+								<input type="submit" value="  结  算  " class="btn btn-primary btn-lg link-account" />
 							</span>
 							</div>
 						</form>
@@ -285,7 +285,7 @@
 		          		  let html = 
 		          		   '<tr>'
 								+'<td>'
-								+'	<input type="checkbox" class="ckitem" />'
+								+'	<input name="cids" value="#{cid}" type="checkbox" class="ckitem" />'
 								+'</td>'
 								+'<td><img src="..#{image}collect.png" class="img-responsive" /></td>'
 								+'<td>#{title}</td>'
@@ -302,6 +302,7 @@
 						 +'</tr>';
 						  
 						  //字符串的不可变性
+						  html = html.replace(/#{cid}/g,json.data[i].cid);
 						  html = html.replace(/#{image}/g,json.data[i].image);
 						  html = html.replace(/#{title}/g,json.data[i].title);
 						  html = html.replace(/#{realPrice}/g,json.data[i].realPrice);

@@ -27,4 +27,12 @@ public interface ICartService {
 	 */
 	List<CartVO> getVOByUid(Integer uid);
 	
+	/**
+	 * 根据多个数据id查询购物车数据的列表
+	 * @param cids 多个购物车数据id
+	 * @param uid 当前登录的用户的id
+	 * @return 匹配的购物车数据的列表
+	 */
+	List<CartVO> getVOByCids(Integer[] cids, Integer uid);
+	
 }

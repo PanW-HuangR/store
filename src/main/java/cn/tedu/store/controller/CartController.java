@@ -56,4 +56,12 @@ public class CartController extends BaseController {
 	    return new JsonResult<>(OK, data);
 	}
 	
+	// http://localhost:80/carts/get_by_cids?cids=3&cids=4&cids=5&cids=6&cids=10&cids=11&cids=12&cids=13&cids=14&cids=15
+	@GetMapping("get_by_cids")
+	public JsonResult<List<CartVO>> getVOByCids(Integer[] cids, HttpSession session) {
+	    Integer uid = getUidFromSession(session);
+	    List<CartVO> data = iCartService.getVOByCids(cids, uid);
+	    return new JsonResult<>(OK, data);
+	}
+	
 }

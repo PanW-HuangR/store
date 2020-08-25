@@ -43,4 +43,15 @@ public class CartServiceTests {
 	    }
 	}
 	
+	@Test
+	public void getVOByCids() {
+	    Integer[] cids = {1,2,3,4,13,14,15,16};
+	    Integer uid = 4;
+	    List<CartVO> list = iCartService.getVOByCids(cids, uid);
+	    System.err.println("count=" + list.size());
+	    for (CartVO item : list) {
+	        System.err.println(item);
+	    }
+	}
+	
 }
