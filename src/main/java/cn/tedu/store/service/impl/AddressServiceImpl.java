@@ -142,6 +142,39 @@ public class AddressServiceImpl implements IAddressService {
 		
 	}
 	
+	@Override
+	public Address getByAid(Integer aid, Integer uid) {
+		// 根据参数aid查询收货地址数据
+		Address result = findByAid(aid);
+		// 判断查询结果是否为null
+		if (result == null) {
+			// 是：AddressNotFoundException
+			throw new AddressNotFoundException(
+				"查询收货地址失败！尝试访问的数据不存在！");
+		}
+
+		// 判断查询结果中的uid与参数uid是否不一致
+		if (!result.getUid().equals(uid)) {
+			// 是：AccessDeniedException
+			throw new AccessDeniedException(
+				"查询收货地址失败！非法访问已经被拒绝！");
+		}
+		
+		// 将查询结果中的某些属性设置为null
+		result.setUid(null);
+		result.setProvinceCode(null);
+		result.setCityCode(null);
+		result.setAreaCode(null);
+		result.setIsDefault(null);
+		result.setCreatedUser(null);
+		result.setCreatedTime(null);
+		result.setModifiedUser(null);
+		result.setModifiedTime(null);
+		
+		// 返回查询结果
+		return result;
+	}
+	
 	/**
 	 * 将指定的收货地址设置为默认
 	 * @param aid 地址id

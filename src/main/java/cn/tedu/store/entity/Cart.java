@@ -45,6 +45,7 @@ public class Cart extends BaseEntity {
 	public void setPrice(Long price) {
 		this.price = price;
 	}
+	
 	@Override
 	public String toString() {
 		return "Cart [cid=" + cid + ", uid=" + uid + ", pid=" + pid + ", num=" + num + ", price=" + price

@@ -21,7 +21,6 @@
 		<link rel="stylesheet" type="text/css" href="../css/footer.css" />
 		<link rel="stylesheet" type="text/css" href="../css/orderConfirm.css" />
 		<link rel="stylesheet" type="text/css" href="../css/cart.css" />
-		<script src="../js/orderConfirm.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
@@ -110,12 +109,12 @@
 					</div>
 				</div>
 				<div class="col-md-12">
-					<form role="form">
+					<form id="form" role="form">
 						<div class="form-group">
 							<label for="name">
 								<p>选择收货地址：</p>
 							</label>
-							<select id="address-list" class="form-control">
+							<select name="aid" id="address-list" class="form-control">
 								<option>八戒&nbsp;&nbsp;&nbsp;家&nbsp;&nbsp;&nbsp;北京市房山区高老庄3排6号&nbsp;&nbsp;&nbsp;1380***1234</option>
 								<option>八戒&nbsp;&nbsp;&nbsp;公司&nbsp;&nbsp;&nbsp;北京市海淀区中关村中路1号1001室&nbsp;&nbsp;&nbsp;1380***1234</option>
 								<option>八戒&nbsp;&nbsp;&nbsp;宿舍&nbsp;&nbsp;&nbsp;北京市海淀区永丰镇30号&nbsp;&nbsp;&nbsp;1380***1234</option>
@@ -157,7 +156,7 @@
 						</div>
 						<div class="pay-bar">
 							<a href="cart.html">返回购物车</a>
-							<span class="pull-right"><input type="button" value="在线支付" class="btn btn-primary btn-lg link-pay"/></span>
+							<span class="pull-right"><input id="btn-submit" type="button" value="在线支付" class="btn btn-primary btn-lg link-pay"/></span>
 						</div>
 					</form>
 				</div>
@@ -299,12 +298,13 @@
     				console.log(json.data[i].title);
     				let html = '<tr>'
 						+ '<td><img src="..#{image}collect.png" class="img-responsive" /></td>'
-						+ '<td>#{title}</td>'
+						+ '<td>#{title}<input type="hidden" name="cids" value="#{cid}" /></td>'
 						+ '<td>¥<span>#{realPrice}</span></td>'
 						+ '<td>#{num}</td>'
 						+ '<td>¥<span>#{totalPrice}</span></td>'
 						+ '</tr>';
 					
+					html = html.replace(/#{cid}/g, json.data[i].cid);
 					html = html.replace(/#{image}/g, json.data[i].image);
 					html = html.replace(/#{title}/g, json.data[i].title);
 					html = html.replace(/#{realPrice}/g, json.data[i].realPrice);
@@ -316,6 +316,28 @@
     		}
     	});
     }
+    
+    $("#btn-submit").click(function(){
+      $.ajax({
+        "url":"/orders/create",
+        "data":$("#form").serialize(),
+        "type":"post",
+        "dataType":"json",
+        "success":function(jsonResult){
+          if(jsonResult.state == 2000){
+            alert("创建订单成功！");
+          }
+          else{
+            alert(jsonResult.message);
+          }
+        },
+        "error":function(xhr){
+      	  alert("您的登录信息已经过期，请重新登录！\n\nHTTP响应码：" + xhr.status);
+      	  location.href = "login.html";
+        }
+      });
+    });
+    
     </script>
 	</body>
 

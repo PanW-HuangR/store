@@ -68,4 +68,17 @@ public class AddressServiceTests {
 		}
 	}
 	
+	@Test
+	public void getByAid() {
+	    try {
+	        Integer uid = 18;
+	        Integer aid = 26;
+	        Address result = iAddressService.getByAid(aid, uid);
+	        System.err.println(result);
+	    } catch (ServiceException e) {
+	        System.err.println(e.getClass().getName());
+	        System.err.println(e.getMessage());
+	    }
+	}
+	
 }
